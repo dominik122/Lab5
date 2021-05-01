@@ -69,7 +69,8 @@ public class Pong extends Application {
                     5 + lott.nextDouble() * 20,
                     5 + lott.nextDouble() * 20,
                     10,
-                    15);
+                    15,
+                    2);
         }
     }
 
