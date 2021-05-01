@@ -22,17 +22,11 @@ public class Pong extends Application {
     private static final double ARENAHEIGHT = HEIGHT - 2*MARGIN;
     private static final double ARENAX1 = MARGIN;
     private static final double ARENAY1 = MARGIN;
-    private static final double ARENAX2 = ARENAX1+ ARENAWIDTH;
+    private static final double ARENAX2 = ARENAX1 + ARENAWIDTH;
     private static final double ARENAY2 = ARENAY1 + ARENAHEIGHT;
-    private static final double R = 10;
 
-
-    private static final int LICZBAKULEK = 10;
-    private double[] x = new double[LICZBAKULEK];
-    private double[] y = new double[LICZBAKULEK];
-    private double[] vx = new double[LICZBAKULEK];
-    private double[] vy = new double[LICZBAKULEK];
-
+    private static final int LICZBAKULEK = 1;
+    private Kulka[] kulki = new Kulka[LICZBAKULEK];
 
 
     @Override
@@ -60,10 +54,12 @@ public class Pong extends Application {
     private void initKula(){
         Random lott = new Random();
         for (int i = 0; i < LICZBAKULEK; i++){
-            x[i] = lott.nextDouble() * ARENAWIDTH + ARENAX1;
-            y[i] = lott.nextDouble() * ARENAHEIGHT + ARENAY1;
-            vx[i] = 5+lott.nextDouble()*20;
-            vy[i] = 5+lott.nextDouble()*20;
+            kulki[i] = new Kulka(
+                    lott.nextDouble() * ARENAWIDTH + ARENAX1,
+                    lott.nextDouble() * ARENAHEIGHT + ARENAY1,
+                    5 + lott.nextDouble() * 20,
+                    5 + lott.nextDouble() * 20,
+                    Color.WHITESMOKE);
         }
     }
 
@@ -71,20 +67,10 @@ public class Pong extends Application {
         gc.setFill(Color.BLACK);
         gc.fillRect(ARENAX1, ARENAY1, ARENAWIDTH, ARENAHEIGHT);
 
-
         for (int i = 0; i < LICZBAKULEK; i++){
-            if ((x[i] <= ARENAX1) || (x[i] >= ARENAX2)) vx[i] = -vx[i];
-            if ((y[i] <= ARENAY1) || (y[i] >= ARENAY2)) vy[i] = -vy[i];
-        }
-
-        for (int i = 0; i < LICZBAKULEK; i++){
-            x[i] += vx[i];
-            y[i] += vy[i];
-        }
-
-        for (int i = 0; i < LICZBAKULEK; i++){
-            gc.setFill(Color.WHITESMOKE);
-            gc.fillOval(x[i] - R, y[i] - R, 2*R, 2*R);
+            kulki[i].checkBoundaryCollision(ARENAX1, ARENAY1, ARENAX2, ARENAY2);
+            kulki[i].update();
+            kulki[i].draw(gc);
         }
     }
 }
