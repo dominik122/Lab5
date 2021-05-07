@@ -26,15 +26,14 @@ public class Pong extends Application {
     private static final double ARENAY2 = ARENAY1 + ARENAHEIGHT;
 
     private static final int LICZBAKULEK = 10;
-    private Kulka[] kulki = new Kulka[LICZBAKULEK/2];
-    private Rugby[] rugby = new Rugby[LICZBAKULEK/2];
+    private Kulka[] kulki = new Kulka[LICZBAKULEK];
+
 
 
     @Override
     public void start(Stage stage) {
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        initKula();
 
         Timeline t = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
         t.setCycleCount(Timeline.INDEFINITE);
@@ -43,6 +42,7 @@ public class Pong extends Application {
         stage.setScene(new Scene(new StackPane(canvas)));
         stage.show();
 
+        initKula();
         t.play();
     }
 
@@ -62,8 +62,8 @@ public class Pong extends Application {
                     10,
                     Color.WHITESMOKE);
         }
-        for (int i = 0; i < LICZBAKULEK/2; i++){
-            rugby[i] = new Rugby(
+        for (int i = LICZBAKULEK/2; i < LICZBAKULEK; i++){
+            kulki[i] = new Rugby(
                     lott.nextDouble() * ARENAWIDTH + ARENAX1,
                     lott.nextDouble() * ARENAHEIGHT + ARENAY1,
                     5 + lott.nextDouble() * 20,
@@ -78,15 +78,12 @@ public class Pong extends Application {
         gc.setFill(Color.BLACK);
         gc.fillRect(ARENAX1, ARENAY1, ARENAWIDTH, ARENAHEIGHT);
 
-        for (int i = 0; i < LICZBAKULEK/2; i++){
+        for (int i = 0; i < LICZBAKULEK; i++){
             kulki[i].checkBoundaryCollision(ARENAX1, ARENAY1, ARENAX2, ARENAY2);
-            rugby[i].checkBoundaryCollision(ARENAX1, ARENAY1, ARENAX2, ARENAY2);
 
             kulki[i].update();
-            rugby[i].update();
 
             kulki[i].draw(gc);
-            rugby[i].draw(gc);
         }
     }
 }

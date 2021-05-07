@@ -33,4 +33,6 @@ public class Rugby extends Kulka{
         rot += omega;
         System.out.printf("Rotation: %f\n", rot);
     }
+
+
 }
