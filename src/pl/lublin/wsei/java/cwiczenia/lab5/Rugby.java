@@ -11,6 +11,7 @@ public class Rugby extends Kulka{
     private double omega;
     private double rot;
 
+
     public Rugby(double xPos,double yPos, double xSpeed, double ySpeed, double rx,double ry, double omega){
         super(xPos, yPos, xSpeed, ySpeed);
         this.rx = rx;
@@ -34,5 +35,23 @@ public class Rugby extends Kulka{
         System.out.printf("Rotation: %f\n", rot);
     }
 
-
+    @Override
+    public void checkBoundaryCollision(double xLeft, double yTop, double xRight, double yBottom){
+        if ((xPos - rx <= xLeft)) {
+            rot = Math.cos(rot) * rx + xPos - rx;
+            xSpeed = -xSpeed;
+        }
+        if (xPos + rx >= xRight){
+            rot = Math.cos(rot) * rx + xPos + rx;
+            xSpeed = -xSpeed;
+        }
+        if ((yPos - ry <= yTop)){
+            rot = Math.sin(rot) * ry + yPos - ry;
+            ySpeed = -ySpeed;
+        }
+        if (yPos + ry >= yBottom){
+            rot = Math.sin(rot) * ry + yPos + ry;
+            ySpeed = -ySpeed;
+        }
+    }
 }
